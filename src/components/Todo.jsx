@@ -51,6 +51,7 @@ export const Todo = () => {
             <input 
                 type="checkbox"
                 className='mx-2'
+                checked={todoItem.isCompleted}
             
             />
             <p>{todoItem.title}</p>

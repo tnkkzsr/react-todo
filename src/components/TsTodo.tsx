@@ -5,12 +5,9 @@ import {FaTrash} from 'react-icons/fa';
 interface ITodo {
     id: number;
     title: string;
+    isCompleted:boolean;
 }
 
-type ITodo2 = {
-    id: number;
-    title: string;
-}
 
 export const TsTodo = () => {
     const [title, setTitle] = useState<string>('');
@@ -25,6 +22,7 @@ export const TsTodo = () => {
         const newTodo:ITodo = {
             id: randomInt,
             title: title,
+            isCompleted:false,
         };
 
         setTodos([...todos,newTodo]);
@@ -50,6 +48,20 @@ export const TsTodo = () => {
 
     };
 
+    const handleCheck =  (todo:ITodo) => {
+
+        //チェックボックスの処理
+        const newTodos = todos.map((todoItem)=>{
+            if(todoItem.id === todo.id){
+                return{...todoItem, isCompleted: !todo.isCompleted}
+            }
+            return todoItem;
+        })
+        console.log(newTodos);
+        setTodos(newTodos);
+      
+    }
+
   return (
     <div className='w-[400px] h-[500px] bg-white rounded-md px-5 py-3'>
         <div className="font-bold text-2xl">TODOアプリ</div>
@@ -66,12 +78,17 @@ export const TsTodo = () => {
         </div>
 
         {todos.map((todoItem)=>{
-            return <div className='bg-white py-3 my-2 border flex justify-between' key={todoItem.id}>
+            return <div className={`${todoItem.isCompleted ? "bg-gray-500": "bg-white"} py-3 my-2 border flex justify-between`} key={todoItem.id}>
             
             <div className='flex flex-row'>
             <input 
                 type="checkbox"
                 className='mx-2'
+                checked={todoItem.isCompleted}
+                onChange={(e)=>{
+                    handleCheck(todoItem);
+                }}
+                
             
             />
             <p>{todoItem.title}</p>
